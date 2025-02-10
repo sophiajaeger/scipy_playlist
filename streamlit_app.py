@@ -193,15 +193,15 @@ with st.expander("Playlist Prediction"):
         max_selections=1
         )[0]
       
-      print(selected_song_name)
+      st.write(selected_song_name)
       st.write("type", type(selected_song_name))
 
       #returning the index of selected_song_name in df
-      #selected_song_id = df[df["track_name"] == selected_song_name].index
+      selected_song_id = df[df["track_name"] == selected_song_name].index
 
-      #selected_songs.append(selected_song_id)
+      selected_songs.append(selected_song_id)
 
-      st.write(selected_song_name)
+      #st.write(selected_song_name)
 
   recommended_songs_df = recommend_songs(knn, selected_songs)
 
