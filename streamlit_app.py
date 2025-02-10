@@ -195,7 +195,7 @@ with st.expander("Playlist Prediction"):
       
       
             #returning the index of selected_song_name in df
-      selected_song_id = df[df["track_name"] == selected_song_name].index
+      selected_song_id = df[df["track_name"] == selected_song_name].index.values
       st.write("Selected song: ", selected_song_id, selected_song_name)
 
       selected_songs.append(selected_song_id)
