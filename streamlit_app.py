@@ -194,7 +194,7 @@ with st.expander("Playlist Prediction"):
         )
       
       print(selected_song_name)
-      print("type", type(selected_song_name))
+      st.write("type", type(selected_song_name))
 
       #returning the index of selected_song_name in df
       #selected_song_id = df[df["track_name"] == selected_song_name].index
