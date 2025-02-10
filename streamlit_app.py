@@ -172,7 +172,7 @@ def recommend_songs(knn, song_ids):
 
     # Return recommended song indices (excluding the input songs)
     recommended_ids = [i for i in ids[0] if i not in song_ids]
-    recommended_songs = df.loc[recommended_ids, ['track_name', 'artist_name', 'year', 'album_name']]
+    recommended_songs = df.loc[recommended_ids, ['track_name', 'artist_name', 'year']]
     return recommended_songs
 
 
