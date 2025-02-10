@@ -201,7 +201,7 @@ with st.expander("Playlist Prediction"):
 
       #selected_songs.append(selected_song_id)
 
-      st.write(selected_song_id)
+      st.write(selected_song_name)
 
   recommended_songs_df = recommend_songs(knn, selected_songs)
 
