@@ -189,7 +189,7 @@ with st.expander("Playlist Prediction"):
       selected_song = st.multiselect(
         
         label="Select one of the songs",
-        options=matching_songs['track_name'].values,
+        options=matching_songs['track_name', 'artist_name', 'year'].values,
         max_selections=1
         )
       #selected_song_index = matching_songs[matching_songs['track_name'] == selected_song[0]].index[0]
