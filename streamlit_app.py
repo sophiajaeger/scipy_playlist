@@ -186,12 +186,13 @@ with st.expander("Playlist Prediction"):
           continue
 
       # show options in st.multiselect in form Id: Song Name by artist in year and saves id in variable
-      selected_song_index = st.multiselect(
+      selected_song = st.multiselect(
         
         label="Select one of the songs",
         options=matching_songs['track_name'].values,
         max_selections=1
         )
+      selected_song_index = matching_songs[matching_songs['track_name'] == selected_song[0]].index[0]
       selected_songs.append(selected_song_index)
 
   recommended_songs_df = recommend_songs(knn, selected_songs)
