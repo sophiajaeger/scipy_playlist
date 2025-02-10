@@ -170,6 +170,11 @@ def recommend_songs(knn, song_ids):
     # Find k-nearest neighbors to average vector
     distances, ids = knn.kneighbors([avg_features], n_neighbors=13)
 
+    # save songs from neighbors algorithm by selecting by index in df
+    ids = ids.tolist()
+    return ids
+
+
     # Return recommended song indices (excluding the input songs)
     recommended_ids = [i for i in ids[0] if i not in song_ids]
     recommended_songs = df.loc[recommended_ids, ['track_name', 'artist_name', 'year']]
@@ -194,24 +199,23 @@ with st.expander("Playlist Prediction"):
         options=matching_songs['track_name'].values,
         max_selections=1
         )[0]
-      
-      
-            #returning the index of selected_song_name in df
+
+      #returning the index of selected_song_name in df
       selected_song_id = df[df["track_name"] == selected_song_name].index.values[0]
       st.write("Selected song: ", selected_song_id, selected_song_name)
 
       selected_songs.append(selected_song_id)
 
-      #st.write(selected_song_name)
+  recommended_song_ids = recommend_songs(knn, selected_songs)
 
-  recommended_songs_df = recommend_songs(knn, selected_songs)
+  if recommended_song_ids:
+      recommended_songs_df = df.loc[recommended_song_ids, ['track_name', 'artist_name', 'year']]
 
   if not recommended_songs_df.empty:
       print("\nRecommended Playlist:")
       print(recommended_songs_df)
   else:
       print("No recommendations found for this song.")
-
 
 
 
