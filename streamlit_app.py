@@ -192,8 +192,10 @@ with st.expander("Playlist Prediction"):
         options=matching_songs['track_name'].values,
         max_selections=1
         )
-      selected_song_index = matching_songs[matching_songs['track_name'] == selected_song[0]].index[0]
-      selected_songs.append(selected_song_index)
+      #selected_song_index = matching_songs[matching_songs['track_name'] == selected_song[0]].index[0]
+      #selected_songs.append(selected_song_index)
+
+      st.write(selected_song)
 
   recommended_songs_df = recommend_songs(knn, selected_songs)
 
