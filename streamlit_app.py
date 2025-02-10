@@ -163,7 +163,9 @@ def recommend_songs(knn, song_ids):
         return pd.DataFrame()
 
     # Find average feature vector for the input songs
-    avg_features = np.mean(X[song_ids], axis=0)
+    #avg_features = np.mean(X[song_ids], axis=0)
+    features = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'valence', 'tempo', 'language']
+    avg_features = np.mean(df.loc[song_ids, features], axis=0)
 
     # Find k-nearest neighbors to average vector
     distances, ids = knn.kneighbors([avg_features], n_neighbors=13)
