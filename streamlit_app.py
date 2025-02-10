@@ -31,7 +31,7 @@ Requirements to have installed:
 
 # **Data description**
 """
-import kagglehub
+#import kagglehub
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -49,12 +49,13 @@ def streamlit_setup():
 
 def load_dataframe(link):
 # Download latest version
-  path = kagglehub.dataset_download(link)
-
-  print("Path to dataset files:", path)
+  #path = kagglehub.dataset_download(link)
+  path = "spotify_tracks.csv"
+  #print("Path to dataset files:", path)
 
   # Load the dataset
-  df = pd.read_csv(path+'/spotify_tracks.csv')
+  #df = pd.read_csv(path+'/spotify_tracks.csv')
+  df = pd.read_csv(path)
 
   # Display the first few rows
   df.head()
