@@ -191,7 +191,7 @@ with st.expander("Playlist Prediction"):
         label="Select one of the songs",
         options=matching_songs['track_name'].values,
         max_selections=1
-        )
+        )[0]
       
       print(selected_song_name)
       st.write("type", type(selected_song_name))
