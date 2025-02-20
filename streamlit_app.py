@@ -42,6 +42,9 @@ import matplotlib.pyplot as plt
 from sklearn.neighbors import NearestNeighbors
 import streamlit as st
 import seaborn as sns
+import statsmodels.formula.api as smf
+import statsmodels.api as sm
+from statsmodels.stats.multicomp import pairwise_tukeyhsd
 
 def streamlit_setup():
   st.set_page_config(
@@ -131,10 +134,71 @@ with st.expander("General visualization"):
 
   -Nearly all songs have a very low instrumentalness score and are rather short.
   """
-st.markdown("### 2) Exploration of cultural patterns and trends")
+st.markdown("### 2) Exploration of Cultural Patterns and Trends")
 
-with st.expander("Cultural Patterns and Trends"):
-  st.write("to do")
+# plot for patterns over the years
+with st.expander("Development of patterns over the year"):
+  sns.set(style="whitegrid")
+  plt.figure(figsize=(12, 8))
+  sns.lineplot(data=df, x='year', y=df['tempo'], marker='o', label='Tempo', color='#D2665A')
+  sns.lineplot(data=df, x='year', y=df['valence']*100, marker='o', label='valence (*10)', color='#F2B28C')
+  sns.lineplot(data=df, x='year', y=df['duration_ms'] / 6000, marker='o', label='Length (seconds)', color='#F6DED8')
+
+  # Set plot title and labels
+  plt.title('Distribution of Features over Time')
+  plt.xlabel('Release Year')
+  plt.ylabel('Feature Value')
+
+  # Show legend
+  plt.legend()
+
+  # Show the plot
+  plt.tight_layout()
+  #plt.show()
+  st.pyplot(plt)
+
+# check if there are statistically significant differences in the distribution of key features across languages using mixed linear effects models
+with st.expander("Differences of features across languages"):
+    features = ['tempo', 'danceability', 'speechiness', 'energy']
+    colors = ["#AEC6CF", "#FFB347", "#77DD77", "#F49AC2"]
+    
+    # Create a 2x2 grid for the boxplots
+    fig, axs = plt.subplots(2, 2, figsize=(12, 10))
+    axs = axs.flatten()
+    
+    posthoc_results = {}
+    for i, feature in enumerate(features):
+        # Plot distribution of the feature across languages using a boxplot
+        sns.boxplot(x='language', y=feature, data=df, ax=axs[i], color=colors[i])
+        axs[i].set_title(f"{feature.capitalize()} by Language")
+        axs[i].set_xlabel("Language")
+        axs[i].set_ylabel(feature.capitalize())
+        
+        # Fit a linear model (ANOVA) with language as categorical
+        model = smf.ols(formula=f"{feature} ~ C(language)", data=df).fit()
+        anova_table = sm.stats.anova_lm(model, typ=2)
+        p_val = anova_table.loc["C(language)", "PR(>F)"]
+        
+        # Perform pairwise post-hoc Tukey HSD test to identify pairwise differences
+        tukey = pairwise_tukeyhsd(endog=df[feature], groups=df['language'], alpha=0.05)
+        # Convert Tukey results to a DataFrame
+        tukey_results = pd.DataFrame(data=tukey._results_table.data[1:], 
+                                     columns=tukey._results_table.data[0])
+        # Filter for comparisons that are statistically significant
+        sig_comparisons = tukey_results[tukey_results['reject'] == True]
+        posthoc_results[feature] = sig_comparisons
+        
+    fig.tight_layout()
+    st.pyplot(fig)
+    
+    st.markdown("#### Pairwise Comparisons (Tukey HSD Test)")
+    for feature in features:
+        st.markdown(f"**{feature.capitalize()}**")
+        if posthoc_results[feature].empty:
+            st.write("No statistically significant differences found between languages for this feature.")
+        else:
+            st.dataframe(posthoc_results[feature])
+   # to do: analysize the p values and stuff
 
 st.markdown("### 3) Correlation between features")
 with st.expander("Dancability and acousticness"):
@@ -151,7 +215,7 @@ with st.expander("Dancability and acousticness"):
   """As the plot displays, the most popular songs have a medium or high danceability.
   Nevertheless, it is likely that the popularity does not only depend on the dancability.
   """
-  
+# plot to visualize song length
 with st.expander("Song length per year"):
   fig, ax = plt.subplots()
   ax.scatter(x=df["year"],y=df["duration_ms"],alpha = 0.9, color = "#7C444F")
@@ -160,26 +224,26 @@ with st.expander("Song length per year"):
   ax.set_title("Relation beween release year and song length")
   ax.grid(True)
   fig.tight_layout()
-  plt.show()
+  # plt.show()
+  st.pyplot(fig)
 
-with st.expander("Development of patterns over the year"):
-    sns.set(style="whitegrid")
-    plt.figure(figsize=(12, 8))
-    sns.lineplot(data=df, x='year', y=df['tempo'], marker='o', label='Tempo', color='#D2665A')
-    sns.lineplot(data=df, x='year', y=df['valence']*100, marker='o', label='valence (*10)', color='#F2B28C')
-    sns.lineplot(data=df, x='year', y=df['duration_ms'] / 6000, marker='o', label='Length (seconds)', color='#F6DED8')
-    
-    # Set plot title and labels
-    plt.title('Distribution of Features over Time')
-    plt.xlabel('Release Year')
-    plt.ylabel('Feature Value')
-    
-    # Show legend
-    plt.legend()
-    
-    # Show the plot
-    plt.tight_layout()
-    plt.show()
+with st.expander("Heatmap of feature correlations"):
+  # Create a correlation matrix
+  df_numerical = df.select_dtypes(include=[np.number])
+  corr = df_numerical.corr().round(2)
+  
+  # Create a heatmap
+  plt.figure(figsize=(10, 8))
+  sns.heatmap(corr, annot=True, cmap='coolwarm', vmin=-1, vmax=1)
+  
+  # Set plot title
+  plt.title('Correlation Matrix')
+  
+  # Show the plot
+  #plt.show()
+  st.pyplot(plt)
+
+  # to do: write what we can draw from this
 
 def contrast_coding(df, column_name):
     df[column_name] = df[column_name].astype('category')
