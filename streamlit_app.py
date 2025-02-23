@@ -133,11 +133,11 @@ st.markdown("### 2) Exploration of Cultural Patterns and Trends")
 # plot for patterns over the years
 with st.expander("Development of patterns over the year"):
   fig, ax1 = plt.subplots(figsize=(12, 8))
-  sns.lineplot(data=df, x='year', y='tempo', marker='o', label='Tempo', color='#D2665A', ax=ax1)
+  sns.lineplot(data=df, x='year', y=df['tempo'], marker='o', label='Tempo', color='#D2665A', ax=ax1)
   ax1.set_ylabel('Tempo', color='#D2665A')
   ax1.tick_params(axis='y', labelcolor='#D2665A')
   ax2 = ax1.twinx()
-  sns.lineplot(data=df, x='year', y='valence' * 100, marker='o', label='Valence (*100)', color='#F2B28C', ax=ax2)
+  sns.lineplot(data=df, x='year', y=df['valence'] * 100, marker='o', label='Valence (*100)', color='#F2B28C', ax=ax2)
   ax2.set_ylabel('Valence (*100)', color='#F2B28C')
   ax2.tick_params(axis='y', labelcolor='#F2B28C')
   sns.lineplot(data=df, x='year', y=df['duration_ms'] / 6000, marker='o', label='Length (seconds)', color='#F6DED8', ax=ax2)
@@ -147,7 +147,7 @@ with st.expander("Development of patterns over the year"):
   # Show the plot
   plt.tight_layout()
   #plt.show()
-  st.pyplot(plt)
+  st.pyplot(fig)
 
   st.text("")
 # check if there are statistically significant differences in the distribution of key features across languages using mixed linear effects models
