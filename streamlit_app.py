@@ -126,31 +126,30 @@ with st.expander("General visualization"):
   st.pyplot(fig)
 
 
-  st.markdown("From the plotted graphs, we are able to draw the following conclusions:\n -the number of songs which were released each year increased over the last 50 years. Last year, the amount of released music was much higher than before.\n-Most of the songs have a dancability score between 0.4 and 0.8 \n-Nearly all songs have a very low instrumentalness score and are rather short. A low instumentalness score might be the result of nearly all songs having lyrics. Most of the songs have a length shorter than two minutes. This could be the case because white noise tracks/... are included")
+  st.text("From the plotted graphs, we are able to draw the following conclusions:\n -the number of songs which were released each year increased over the last 50 years. Last year, the amount of released music was much higher than before.\n-Most of the songs have a dancability score between 0.4 and 0.8 \n-Nearly all songs have a very low instrumentalness score and are rather short. A low instumentalness score might be the result of nearly all songs having lyrics. Most of the songs have a length shorter than two minutes. This could be the case because white noise tracks/... are included")
   
 st.markdown("### 2) Exploration of Cultural Patterns and Trends")
 
 # plot for patterns over the years
 with st.expander("Development of patterns over the year"):
-  sns.set(style="whitegrid")
-  plt.figure(figsize=(12, 8))
-  sns.lineplot(data=df, x='year', y=df['tempo'], marker='o', label='Tempo', color='#D2665A')
-  sns.lineplot(data=df, x='year', y=df['valence']*100, marker='o', label='valence (*10)', color='#F2B28C')
-  sns.lineplot(data=df, x='year', y=df['duration_ms'] / 6000, marker='o', label='Length (seconds)', color='#F6DED8')
-
-  # Set plot title and labels
-  plt.title('Distribution of Features over Time')
-  plt.xlabel('Release Year')
-  plt.ylabel('Feature Value')
-
-  # Show legend
-  plt.legend()
+  fig, ax1 = plt.subplots(figsize=(12, 8))
+  sns.lineplot(data=df, x='year', y='tempo', marker='o', label='Tempo', color='#D2665A', ax=ax1)
+  ax1.set_ylabel('Tempo', color='#D2665A')
+  ax1.tick_params(axis='y', labelcolor='#D2665A')
+  ax2 = ax1.twinx()
+  sns.lineplot(data=df, x='year', y='valence' * 100, marker='o', label='Valence (*100)', color='#F2B28C', ax=ax2)
+  ax2.set_ylabel('Valence (*100)', color='#F2B28C')
+  ax2.tick_params(axis='y', labelcolor='#F2B28C')
+  sns.lineplot(data=df, x='year', y=df['duration_ms'] / 6000, marker='o', label='Length (seconds)', color='#F6DED8', ax=ax2)
+  ax1.set_xlabel('Year')
+  plt.title('Music Attributes Over Years')
 
   # Show the plot
   plt.tight_layout()
   #plt.show()
   st.pyplot(plt)
 
+  st.text("")
 # check if there are statistically significant differences in the distribution of key features across languages using mixed linear effects models
 with st.expander("Differences of features across languages"):
     features = ['tempo', 'danceability', 'speechiness', 'energy']
@@ -206,9 +205,7 @@ with st.expander("Dancability and acousticness"):
   # plt.show()
   st.pyplot(fig)
 
-  """As the plot displays, the most popular songs have a medium or high danceability.
-  Nevertheless, it is likely that the popularity does not only depend on the dancability.
-  """
+  st.text("As the plot displays, the most popular songs have a medium or high danceability.\n Nevertheless, it is likely that the popularity does not only depend on the dancability.\n")
 # plot to visualize song length
 with st.expander("Song length per year"):
   fig, ax = plt.subplots()
