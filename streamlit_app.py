@@ -126,14 +126,8 @@ with st.expander("General visualization"):
   st.pyplot(fig)
 
 
-  """From the plotted graphs, we are able to draw the following conclusions:
-
-  -the number of songs which were released each year increased over the last 50 years. Last year, the amount of released music was much higher than before.
-
-  -Most of the songs have a dancability score between 0.4 and 0.8
-
-  -Nearly all songs have a very low instrumentalness score and are rather short.
-  """
+  st.markdown("From the plotted graphs, we are able to draw the following conclusions:\n -the number of songs which were released each year increased over the last 50 years. Last year, the amount of released music was much higher than before.\n-Most of the songs have a dancability score between 0.4 and 0.8 \n-Nearly all songs have a very low instrumentalness score and are rather short. A low instumentalness score might be the result of nearly all songs having lyrics. Most of the songs have a length shorter than two minutes. This could be the case because white noise tracks/... are included")
+  
 st.markdown("### 2) Exploration of Cultural Patterns and Trends")
 
 # plot for patterns over the years
