@@ -96,7 +96,7 @@ st.markdown("## Data analysis and visualization")
 st.markdown("### 1) General data analysis")
 with st.expander("General Data Analysis"):
   st.dataframe(df.describe(), use_container_width=True)
-  
+  st.write("This table gives us insights about the maximum and minimum values of a parameter, as well as statistical parameters like the mean which help to process the data correctly and use the parameters in a good manner for further analysis.")
 #creating some histograms 
 with st.expander("General visualization"):
   fig = plt.figure()
@@ -145,11 +145,11 @@ with st.expander("Development of patterns over the year"):
   plt.title('Music Attributes Over Years')
 
   # Show the plot
-  plt.tight_layout()
+  #plt.tight_layout()
   #plt.show()
   st.pyplot(fig)
 
-  st.text("")
+  st.text("In this plot, the distribution of the features Length of the song, Tempo and Valence can be investigated. We implemented two axis to integrate all three plots into one figure. Tempo is plotted with the use of the left axis while Valence and Length of the song are plotted with the help of the right axis. Especially for the parameter Valence, we can recognize strong changes over the years, with an overall decreasing tendency during the last 30 years. The same is true for Valence, while the parameter tempo stays more or less constant. ")
 # check if there are statistically significant differences in the distribution of key features across languages using mixed linear effects models
 with st.expander("Differences of features across languages"):
     features = ['tempo', 'danceability', 'speechiness', 'energy']
@@ -183,7 +183,7 @@ with st.expander("Differences of features across languages"):
         
     fig.tight_layout()
     st.pyplot(fig)
-    
+    st.write("Here we can investigate the expression of different features (Tempo, Danceability, Speechiness and Energy) in the six different languages of the dataset. Below, the results of a pairwise comparison in form of the Tukey HSD Test are displayed for each feature. It has to be mentioned that only the pairs which lead to significant results are listed here. Interestingly, the significant differences are very high for the parameter Tempo (e.g Hindi/Korean or English/Korean) in comparison to the other parameters. There are more significant differences for the parameters Danceablity and Speechiness in contrast to Tempo and Energy. This leads to the conclusion that there are more inter-linguistic differences in the parameters Danceability and Speechiness opposed to Tempo and Energy.")
     st.markdown("#### Pairwise Comparisons (Tukey HSD Test)")
     for feature in features:
         st.markdown(f"**{feature.capitalize()}**")
@@ -217,7 +217,7 @@ with st.expander("Song length per year"):
   fig.tight_layout()
   # plt.show()
   st.pyplot(fig)
-
+  st.write("There is an interesting correlation between year and number of song releases in that year. The number of song releases increased nearly exponentially in 2000-2020 but declined very fast after 2020. This can be connected to the development of new technology in the 21th century (increase) and the covid-pandemic in the last years (decline)")
 with st.expander("Heatmap of feature correlations"):
   # Create a correlation matrix
   df_numerical = df.select_dtypes(include=[np.number])
@@ -233,7 +233,7 @@ with st.expander("Heatmap of feature correlations"):
   # Show the plot
   #plt.show()
   st.pyplot(plt)
-
+  st.write("With the help of this heatmap, we are able to infer which parameters in the data might me correlated and therefore interesting to further investigate. \n 1)Loudness/Energy has a high positive correlation.  The higher the volume of the song, the more energetic the is perceived to be. \n 2) Valence/Danceability has a high positive correlation. The happier the song makes a person feel, the more the person in motivated to dance to it \n 3) Acousticness/Energy has a high negative correlation. It seems to be the case that songs that are acoustic are perceived as less energetic \n 4)Tempo/Danceability does not have a correlation at all, indicating that the tempo of the song does not influence the ability to dance to it \n 5) The key the song is written in does not have an influence on valence, which is kind of suprising when we think about having major and minor chords which are normally linked to the emotional character of a song")
   # to do: write what we can draw from this
 
 def contrast_coding(df, column_name):
