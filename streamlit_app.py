@@ -69,7 +69,7 @@ with st.expander("General visualization"):
     #plt.show()
     st.pyplot(fig)
   with colb:
-    st.write("The pie chart shows that the majority of songs in the dataset are in English, followed by Tamil and those with an unknown language. The other languages have a much smaller share of the dataset.")
+    st.write("The pie chart shows that a large share of songs in the dataset are in English, followed by Tamil and those with an unknown language. The other languages have a much smaller share of the dataset.")
 
   fig = plt.figure()
   gs = fig.add_gridspec(2, 2)
@@ -97,7 +97,7 @@ with st.expander("General visualization"):
   #plt.show()
   st.pyplot(fig)
 
-  st.text("From the plotted graphs, we are able to draw the following conclusions:\n - the number of songs which were released each year increased over the last 50 years. Last year, the amount of released music was much higher than before.\n - Most of the songs have a dancability score between 0.4 and 0.8 \n - Nearly all songs have a very low instrumentalness score and are rather short. A low instumentalness score might be the result of nearly all songs having lyrics. \n - Most of the songs have a length shorter than two minutes. This could be the case because white noise tracks or other are included")
+  st.text("From the plotted graphs, we are able to draw the following conclusions:\n - the number of songs which were released each year increased over the last 50 years. Last year, the amount of released music was much higher than before. This might be due to modern technologies enabling a larger amount of people to publish their own music.\n - Most of the songs have a dancability score between 0.4 and 0.8 \n - Nearly all songs have a very low instrumentalness score and are rather short. A low instumentalness score might be the result of nearly all songs having lyrics. \n - Most of the songs have a length shorter than two minutes. This could be the case because white noise tracks or other are included")
   
 st.markdown("### 2) Exploration of Cultural Patterns and Trends")
 
@@ -117,7 +117,7 @@ with st.expander("Development of patterns over the year"):
   # Show the plot
   #plt.show()
   st.pyplot(fig)
-  st.text("In this plot, the distribution of the features Length of the song, Tempo and Valence can be investigated. We implemented two axis to integrate all three plots into one figure. Tempo is plotted with the use of the left axis while Valence and Length of the song are plotted with the help of the right axis. Especially for the parameter Valence, we can recognize strong changes over the years, with an overall decreasing tendency during the last 30 years. The same is true for Valence, while the parameter tempo stays more or less constant. ")
+  st.text("In this plot, the distribution of the features Length of the song, Tempo and Valence can be investigated. We implemented two axis to integrate all three plots into one figure. Tempo is plotted with the use of the left axis while Valence and Length of the song are plotted with the help of the right axis. Especially for the parameter Valence, we can recognize strong changes over the years, with an overall decreasing tendency during the last 30 years. The same is true for Length, while the parameter tempo stays more or less constant. ")
 
 # check if there are statistically significant differences in the distribution of key features across languages using mixed linear effects models
 with st.expander("Differences of features across languages"):
@@ -199,7 +199,7 @@ with st.expander("Song length per year"):
   fig.tight_layout()
   # plt.show()
   st.pyplot(fig)
-  st.write("There is an interesting correlation between year and number of song releases in that year. The number of song releases increased nearly exponentially in 2000-2020 but declined very fast after 2020. This can be connected to the development of new technology in the 21th century (increase) and the covid-pandemic in the last years (decline)")
+  st.write("There is an interesting correlation between year and the length of songs released in that year. In the earlier years of the dataset, from around 1970 until 1990, the song length was relatively stable. After that a few songs had an increased length, with the maximum song length per year almost following an exponential curve between 2000 and 2020. However, it declined very fast after 2020. However, the mayority of songs released throughout all these years has a duration of less than 1*10^6 milliseconds, which is equivalent to 100 seconds with more songs having a length between 100 and 200 seconds after 1995.")
 with st.expander("Heatmap of feature correlations"):
   # Create a correlation matrix
   df_numerical = df.select_dtypes(include=[np.number])
@@ -215,7 +215,7 @@ with st.expander("Heatmap of feature correlations"):
   # Show the plot
   #plt.show()
   st.pyplot(plt)
-  st.text("With the help of this heatmap, we are able to infer which parameters in the data might me correlated and therefore interesting to further investigate. \n 1)Loudness/Energy has a high positive correlation.  The higher the volume of the song, the more energetic the is perceived to be. \n 2) Valence/Danceability has a high positive correlation. The happier the song makes a person feel, the more the person in motivated to dance to it \n 3) Acousticness/Energy has a high negative correlation. It seems to be the case that songs that are acoustic are perceived as less energetic \n 4)Tempo/Danceability does not have a correlation at all, indicating that the tempo of the song does not influence the ability to dance to it \n 5) The key the song is written in does not have an influence on valence, which is kind of suprising when we think about having major and minor chords which are normally linked to the emotional character of a song")
+  st.text("With the help of this heatmap, we are able to infer which parameters in the data might me correlated and therefore interesting to further investigate. \n 1)Loudness/Energy has a high positive correlation (0.82).  The higher the volume of the song, the more energetic the is perceived to be. \n 2) Valence/Danceability has a high positive correlation (0.64). The happier the song makes a person feel, the more the person is motivated to dance to it. \n 3) Acousticness/Energy has a high negative correlation (-0.64). It seems to be the case that songs that are acoustic are perceived as less energetic \n 4)Tempo/Danceability has almost no correlation at all (0.07), indicating that the tempo of the song does not influence the ability to dance to it. \n 5) The key the song is written in does not have an influence on valence (correlation=0.07), which is kind of suprising when we think about having major and minor chords which are normally linked to the emotional character of a song.")
 
 def contrast_coding(df, column_name):
     # contrast code a categorical column but keep the original column
