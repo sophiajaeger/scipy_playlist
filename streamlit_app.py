@@ -42,6 +42,8 @@ st.set_page_config(
 )
 st.title("Welcome to our Playlist Prediction")
 st.write("where you might discover your new favorite songs!")
+
+st.write("This app is based on the dataset from 'https://www.kaggle.com/gauthamvijayaraj/spotify-tracks-dataset-updated-every-week', downloaded on 10th February 2025")
 df = load_dataframe()
 df = preprocess_data(df)
 with st.expander("Data Description"):
